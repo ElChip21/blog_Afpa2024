@@ -3,36 +3,26 @@
 {% block title %}Article{% endblock %}
 
 {% block body %}
+<div class="row ">
+<div class="col-md-10 mx-auto text-center flex-column align-items-center justify-content-center">
     <h1>Article</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ article.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ article.title }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ article.description }}</td>
-            </tr>
-            <tr>
-                <th>Picture</th>
-                <td>{{ article.picture }}</td>
-            </tr>
-            <tr>
-                <th>Date</th>
-                <td>{{ article.date ? article.date|date('Y-m-d') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
 
-    <a href="{{ path('app_article_index') }}">back to list</a>
 
-    <a href="{{ path('app_article_edit', {'id': article.id}) }}">edit</a>
+<h1>{{article.title}}</h1>
+
+<img class="col-md-4" src="{{ asset('/build/images/' ~ article.picture) }}" alt="{{article.title}}" title="{{article.title}}"><p>{{article.description}}</p>
+
+
+    <a class="btn btn-dark" href="{{ path('app_article_index') }}">back to list</a>
+
+    <a class="btn btn-warning" href="{{ path('app_article_edit', {'id': article.id}) }}">edit</a>
 
     {{ include('article/_delete_form.html.twig') }}
+
+        
+
+</div>
+</div>
+
 {% endblock %}
