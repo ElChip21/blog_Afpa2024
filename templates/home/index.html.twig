@@ -1,39 +1,38 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!
-{% endblock %}
+{% block title %}Hello HomeController!{% endblock %}
 
 {% block body %}
 
     {# charger mes catégories #}
-	<div class="row p-5">
-	<ul class="col-4 list-group">
-        {% for category in categories %}
-		    <li class="list-group-item"><a href="{{path('app_get_article_by_category', { id_category : category.id} )}}"> {{category.title}} </a></li>
-        {% endfor %}
-	</ul>
+    <div class="row p-5">
+        <ul class="col-4 list-group">
+            {% for category in categories %}
+                <li class="list-group-item"><a href="{{ path('app_get_article_by_category', { id_category : category.id }) }}">{{ category.title }}</a></li>
+            {% endfor %}
+        </ul>
 
-	<div class="col-8 border">
+        <div class="col-md-8 border">
+            <div class="row">
+                {% for article in articles %}
+                    <div class="col-md-6 mb-3">
+                        <a href="{{ path('app_article_show', { id : article.id })}}">
+                            <div class="article d-flex p-3">
+                                {% if article.picture is empty %}
+                                    <img class="col-md-4" src="{{ asset('/build/images/default.jpg') }}" alt="{{ article.title }}" title="{{ article.title }}">
+                                {% else %}
+                                    <img class="col-md-4" src="{{ asset('/build/images/' ~ article.picture) }}" alt="{{ article.title }}" title="{{ article.title }}">
+                                {% endif %}
+                                <div class="d-flex flex-column ms-3">
+                                    <h3>{{ article.title }}</h3>
+                                    <p>{{ article.description }}</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 
-
-		{% for article in articles %}
-		
-		<a href="{{ path('app_article_show', { id : article.id })}}">
-
-		<div class="article d-flex p-3">
-
-		{% if article.picture is empty %}
-			<img class="col-md-4" src="{{ asset('/build/images/default.jpg')}}" alt="{{article.title}}" title="{{article.title}}">
-			{% else %}
-			<img class="col-md-4" src="{{ asset('/build/images/' ~ article.picture)}}" alt="{{article.title}}" title="{{article.title}}">
-			{% endif %}
-
-		<div class="d-flex flex-column ms-3">
-		<h3>{{article.title}}</h3>
-		<h3>{{article.description}}</h3>
-		</div>
-		{% endfor %}
-		</a>
-		</div>
-		</div>
 {% endblock %}

@@ -30,17 +30,23 @@
 							{{article.description}}
 						</p>
 						<a class="btn btn-success mb-3" href="{{ path('app_article_show', {'id': article.id}) }}">show</a>
-						<a class="btn btn-warning" href="{{ path('app_article_edit', {'id': article.id}) }}">edit</a>
+
+						{% if app.user and 'ROLE_ADMIN' in app.user.getroles()  %}
+                            <a class="btn btn-warning" href="{{ path('app_article_edit', {'id': article.id}) }}">edit</a>
+                        {% endif %}
 					</div>
 				</div>
 			</a>
 
 		{% endfor %}
 
+		{% if app.user and 'ROLE_ADMIN' in app.user.getroles()  %}
+
         <div class="row justify-content-center">
+		
             <a class="my-5 col-md-2 btn btn-success" href="{{ path('app_article_new') }}">Create new</a>
         </div>  
-
+	{% endif %}
 	</div>
 
 {% endblock %}

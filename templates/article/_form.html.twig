@@ -1,4 +1,11 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_start(form, {'attr': {'class': 'row g-3'}}) }}
+    {% for field in form %}
+        <div class="col-md-6">
+            {{ form_label(field, field.vars.label, {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(field, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    {% endfor %}
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">{{ button_label|default('Save') }}</button>
+    </div>
 {{ form_end(form) }}
