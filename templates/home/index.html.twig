@@ -4,33 +4,36 @@
 
 {% block body %}
 
-    {# charger mes catégories #}
+    {# Charger les catégories #}
     <div class="row p-5">
-        <ul class="col-4 list-group">
-            {% for category in categories %}
-                <li class="list-group-item"><a href="{{ path('app_get_article_by_category', { id_category : category.id }) }}">{{ category.title }}</a></li>
-            {% endfor %}
-        </ul>
+        <div class="col-md-4">
+            <ul class="list-group">
+                {% for category in categories %}
+                    <li class="list-group-item"><a href="{{ path('app_get_article_by_category', { id_category : category.id }) }}">{{ category.title }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
 
-        <div class="col-md-8 border">
+        <div class="col-md-8">
             <div class="row">
                 {% for article in articles %}
                     <div class="col-md-6 mb-3">
-                        <a href="{{ path('app_article_show', { id : article.id })}}">
-                            <div class="article d-flex p-3">
+                        <a href="{{ path('app_article_show', { id : article.id })}}" class="card text-decoration-none">
+                            <div class="card-body">
                                 {% if article.picture is empty %}
-                                    <img class="col-md-4" src="{{ asset('/build/images/default.jpg') }}" alt="{{ article.title }}" title="{{ article.title }}">
+                                    <img src="{{ asset('/build/images/default.jpg') }}" class="card-img-top image" alt="{{ article.title }}" title="{{ article.title }}">
                                 {% else %}
-                                    <img class="col-md-4" src="{{ asset('/build/images/' ~ article.picture) }}" alt="{{ article.title }}" title="{{ article.title }}">
+                                    <img src="{{ asset('/build/images/' ~ article.picture) }}" class="card-img-top image" alt="{{ article.title }}" title="{{ article.title }}">
                                 {% endif %}
-                                <div class="d-flex flex-column ms-3">
-                                    <h3>{{ article.title }}</h3>
-                                    <p>{{ article.description }}</p>
-                                </div>
+                                <h5 class="card-title">{{ article.title }}</h5>
+                                <p class="card-text">{{ article.description }}</p>
                             </div>
                         </a>
                     </div>
                 {% endfor %}
+				<div class="navigation">
+    {{ knp_pagination_render(articles) }}
+</div>
             </div>
         </div>
     </div>

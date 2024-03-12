@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,20 +32,44 @@ class RegistrationController extends AbstractController
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
-
+    
         if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
+            // Handle avatar upload
+            $avatarFile = $form->get('avatar')->getData();
+            if ($avatarFile) {
+                // Generate a unique filename for the file
+                $newFilename = uniqid().'.'.$avatarFile->guessExtension();
+    
+                // Move the file to the desired directory
+                try {
+                    $avatarFile->move(
+                        $this->getParameter('avatar_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // Handle file upload error
+                    // For example, return a flash message to the user
+                    $this->addFlash('error', 'An error occurred while uploading the avatar.');
+                    return $this->redirectToRoute('app_register');
+                }
+    
+                // Set the avatar path in the user entity
+                $user->setAvatar($newFilename);
+            }
+    
+            // Encode the plain password
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
                     $form->get('plainPassword')->getData()
                 )
             );
-
+    
+            // Persist the user entity
             $entityManager->persist($user);
             $entityManager->flush();
-
-            // generate a signed url and email it to the user
+    
+            // Generate a signed URL and email it to the user
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
                     ->from(new Address('morgansclavo73@gmail.com', 'Morgan Sclavo'))
@@ -52,16 +77,17 @@ class RegistrationController extends AbstractController
                     ->subject('Please Confirm your Email')
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
-
-            // do anything else you need here, like send an email
-
+    
+            // Redirect the user to the login page after successful registration
             return $this->redirectToRoute('app_login');
         }
-
+    
+        // Render the registration form template with the form object
         return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form,
+            'registrationForm' => $form->createView(),
         ]);
     }
+    
 
     #[Route('/verify/email', name: 'app_verify_email')]
     public function verifyUserEmail(Request $request, TranslatorInterface $translator): Response

@@ -1,9 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ProfileController!{% endblock %}
+{% block title %}Profil de {{ app.user.email }}{% endblock %}
 
 {% block body %}
-
-{{app.user.email}}
-
+    <div class="container">
+        <h1 class="mt-4">Profil de {{ app.user.firstName }} {{ app.user.lastName }}</h1>
+        <div class="card mt-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <img src="{{ asset('build/images/' ~ app.user.avatar) }}" alt="Avatar" class="img-fluid rounded-circle">
+                    </div>
+                    <div class="col-md-9">
+                        <p class="card-text">Email : {{ app.user.email }}</p>
+                        <p class="card-text">Nom : {{ app.user.lastName }}</p>
+                        <p class="card-text">Prénom : {{ app.user.firstName }}</p>
+                        <p class="card-text">Téléphone : {{ app.user.phone }}</p>
+                        <p class="card-text">Adresse : {{ app.user.adress }}</p>
+                        <p class="card-text">Code Postal : {{ app.user.CodePostal }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
