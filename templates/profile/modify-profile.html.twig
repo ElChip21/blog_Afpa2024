@@ -1,0 +1,27 @@
+{# Étendez ici le layout de base si vous en avez un #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil de l'utilisateur{% endblock %}
+
+{% form_theme profileForm 'bootstrap_5_layout.html.twig' %}
+
+{% block body %}
+
+    <div class="row col-md-10 mx-auto">
+        {{ form_start(profileForm, { 'attr': {'class': 'row', 'novalidate': 'novalidate'} }) }}
+
+            {{ form_row(profileForm.firstName, {'row_attr': {'class': 'col-md-6'}}) }}
+            {{ form_row(profileForm.lastName, {'row_attr': {'class': 'col-md-6'}}) }}
+            {{ form_row(profileForm.adress, {'row_attr': {'class': 'col-md-6'}}) }}
+            {{ form_row(profileForm.CodePostal, {'row_attr': {'class': 'col-md-6'}}) }}
+            {{ form_row(profileForm.phone, {'row_attr': {'class': 'col-md-6'}}) }}
+            {{ form_row(profileForm.avatar, {'row_attr': {'class': 'col-md-6'}}) }}
+
+            {{ form_row(profileForm._token) }}
+
+            <button type="submit" class="btn btn-success mt-3">Modifier mes informations</button>
+
+        {{ form_end(profileForm, {render_rest: false}) }}
+    </div>
+
+{% endblock %}

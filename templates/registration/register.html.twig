@@ -9,23 +9,64 @@
         <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
     {% endfor %}
 
-    <h1>Register</h1>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h1 class="text-center">Register</h1>
 
-    {{ form_errors(registrationForm) }}
+                {{ form_errors(registrationForm) }}
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.phone) }}
-        {{ form_row(registrationForm.adress) }}
-        {{ form_row(registrationForm.CodePostal) }}
-        {{ form_row(registrationForm.last_name) }}
-        {{ form_row(registrationForm.first_name) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.avatar) }}
-        {{ form_row(registrationForm.agreeTerms) }}
-
-        <button class="mt-5" type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+                {{ form_start(registrationForm, { 'attr': {'class': 'row', 'novalidate': 'novalidate'} }) }}
+                <div class="row mb-3">
+                    <div class="col">
+                        {{ form_row(registrationForm.email) }}
+                    </div>
+                    <div class="col">
+                        {{ form_row(registrationForm.phone) }}
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col">
+                        {{ form_row(registrationForm.adress) }}
+                    </div>
+                    <div class="col">
+                        {{ form_row(registrationForm.CodePostal) }}
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col">
+                        {{ form_row(registrationForm.last_name) }}
+                    </div>
+                    <div class="col">
+                        {{ form_row(registrationForm.first_name) }}
+                    </div>
+                </div>
+              <div class="row mb-3">
+                    <div class="col">
+                        {{ form_row(registrationForm.plainPassword.first) }}
+                    </div>
+                    <div class="col">
+                        {{ form_row(registrationForm.plainPassword.second) }}
+                    </div>
+                </div>
+                    <div class="col">
+                        {{ form_row(registrationForm.avatar, {
+                            label: 'Avatar (image file)'
+                        }) }}
+                    </div>
+                </div>
+                <div class="row mb-3 justify-content-center">
+                    <div class="col-md-6">
+                        {{ form_row(registrationForm.agreeTerms) }}
+                    </div>
+                </div>
+                <div class="row mb-3 justify-content-center">
+                    <div class="col-md-6">
+                        <button class="btn btn-primary w-100" type="submit">Register</button>
+                    </div>
+                </div>
+                {{ form_end(registrationForm) }}
+            </div>
+        </div>
+    </div>
 {% endblock %}

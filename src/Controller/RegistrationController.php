@@ -79,6 +79,7 @@ class RegistrationController extends AbstractController
             );
     
             // Redirect the user to the login page after successful registration
+            $this->addFlash('success', 'Votre inscription est bien réussie !');
             return $this->redirectToRoute('app_login');
         }
     

@@ -5,19 +5,30 @@
 {% block body %}
     <div class="container">
         <h1 class="mt-4">Profil de {{ app.user.firstName }} {{ app.user.lastName }}</h1>
-        <div class="card mt-4">
-            <div class="card-body">
-                <div class="row">
+        <div class="card mt-4 p-5">
+            <div class="d-flex justify-content-end">
+                <div class="row justify-content-center align-items-center">
                     <div class="col-md-3">
                         <img src="{{ asset('build/images/' ~ app.user.avatar) }}" alt="Avatar" class="img-fluid rounded-circle">
                     </div>
-                    <div class="col-md-9">
+                    <div class="col-md-4">
                         <p class="card-text">Email : {{ app.user.email }}</p>
                         <p class="card-text">Nom : {{ app.user.lastName }}</p>
                         <p class="card-text">Prénom : {{ app.user.firstName }}</p>
+                        </div>
+                    <div class="col-md-4">
+
                         <p class="card-text">Téléphone : {{ app.user.phone }}</p>
                         <p class="card-text">Adresse : {{ app.user.adress }}</p>
                         <p class="card-text">Code Postal : {{ app.user.CodePostal }}</p>
+                        
+
+                        </div>
+                        <div class="d-flex mt-2 justify-content-around">
+                        <div class=""><a href="{{ path('app_profile_edit')}}" class="btn btn-success"> Modifier mes informations </a></div>
+                        <div class=""><a href="{{ path('app_profile_password_edit')}}" class="btn btn-primary"> Modifier mon mot de passe </a></div>
+                       <div class=""><a href="{{ path('app_profile_edit')}}" class="btn btn-danger"> Supprimer son compte </a></div>
+                        </div>
                     </div>
                 </div>
             </div>
