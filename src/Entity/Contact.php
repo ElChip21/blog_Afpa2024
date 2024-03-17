@@ -44,7 +44,7 @@ class Contact
     #[Assert\NotBlank(message: "Le champ {{ label }} ne peut pas être vide !")]
     #[Assert\Length(
         min: 20,
-        max: 50,
+        max: 5000,
         minMessage: 'Your message must be at least {{ limit }} characters long',
         maxMessage: 'Your message cannot be longer than {{ limit }} characters',
     )]
@@ -52,6 +52,9 @@ class Contact
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $email = null;
 
     public function getId(): ?int
     {
@@ -114,6 +117,18 @@ class Contact
     public function setDate(\DateTimeInterface $date): static
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): static
+    {
+        $this->email = $email;
 
         return $this;
     }

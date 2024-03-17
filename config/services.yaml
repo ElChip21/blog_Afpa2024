@@ -6,6 +6,8 @@
 parameters:
     local: 'fr'
     avatar_directory: '%kernel.project_dir%/public/build/images'
+    article_picture_directory: '%kernel.project_dir%/public/build/images'
+    app.mailAddress: '%env(MAIL_ADDRESS)%'
 
 services:
     # default configuration for services in *this* file

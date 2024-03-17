@@ -15,18 +15,17 @@
     </head>
     <body>
 
-        {# d'avoir ma nav sur toutes mes pages #}
+        {# avoir ma nav sur toutes mes pages #}
         {% include "nav.html.twig" %}
 
         <div class="container-fluid pt-5 ">
+            {% include "flash.html.twig" %} {# Placé en dehors du bloc body #}
+
             {% block body %}
-            
-                    {% include "flash.html.twig" %}
-
+                {# Contenu spécifique à chaque page #}
             {% endblock %}
-
-
         </div>
+
     </body>
 
 <footer class="">

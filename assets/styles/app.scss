@@ -18,11 +18,16 @@ a {
     text-decoration: none;
 }
 
+
 .image {
     max-width: 387px; /* Largeur maximale */
     max-height: 218px; /* Hauteur maximale */
     background-size: cover; /* L'image de fond couvre entièrement la zone */
     background-position: center; /* L'image est centrée horizontalement et verticalement */
     background-repeat: no-repeat; /* L'image de fond ne se répète pas */
+  }
+
+  .gainsboro{
+    background: gainsboro !important;
   }
   

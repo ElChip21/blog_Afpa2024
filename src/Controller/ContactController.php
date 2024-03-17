@@ -4,7 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Contact;
 use App\Form\ContactType;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +20,8 @@ class ContactController extends AbstractController
     public function index(
         Request $request,
         EntityManagerInterface $entityManager,
-        ValidatorInterface $validator
+        ValidatorInterface $validator,
+        MailerInterface $mailer
     ): Response {
 
         $contact = new Contact();
@@ -36,6 +40,24 @@ class ContactController extends AbstractController
                     'success',
                     'Votre message a bien été envoyé'
                 );
+
+                // $email = (new Email())
+                $email = (new TemplatedEmail())
+                    ->from($this->getParameter('app.mailAddress'))
+                    ->to($this->getParameter('app.mailAddress'))
+                    ->cc($contact->getEmail())
+                    //->bcc('bcc@example.com')
+                    //->replyTo('fabien@example.com')
+                    //->priority(Email::PRIORITY_HIGH)
+                    ->subject($contact->getObject())
+                    ->text('Sending emails is fun again!')
+                    // ->html('<p> ' . $contact->getMessage() . ' </p>');
+                    ->htmlTemplate("email/contact.html.twig")
+                    ->context([
+                        'contact' => $contact,
+                    ]);
+
+                $mailer->send($email);
 
                 // rediriger vers une autre page
                 // return $this->redirectToRoute(/* ... */);

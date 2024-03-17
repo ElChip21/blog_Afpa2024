@@ -1,52 +1,42 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Article index
-{% endblock %}
+{% block title %}Liste des articles{% endblock %}
 
 {% block body %}
-	<h1>Article index</h1>
+    <h1 class="my-4">Liste des articles</h1>
 
-        {% include "flash.html.twig" %}
-  
-	<div class="col-10 mx-auto border my-5">
-
-		{% for article in articles %}
-
-			<a href="{{path('app_article_show', { id : article.id })}}">
-				<div class="d-flex article p-3">
-
-					{% if article.picture is empty %}
-						<img class="col-md-4" src="{{ asset('/build/images/default.jpg') }}" alt="{{article.title}}" title="{{article.title}}">
-					{% else %}
-						<img class="col-md-4" src="{{ asset('/build/images/' ~ article.picture) }}" alt="{{article.title}}" title="{{article.title}}">
-					{% endif %}
-
-
-					<div class="col-md-8 d-flex flex-column ms-3 align-items-start">
-						<h3>
-							{{article.title}}
-						</h3>
-						<p>
-							{{article.description}}
-						</p>
-						<a class="btn btn-success mb-3" href="{{ path('app_article_show', {'id': article.id}) }}">show</a>
-
-						{% if app.user and 'ROLE_ADMIN' in app.user.getroles()  %}
-                            <a class="btn btn-warning" href="{{ path('app_article_edit', {'id': article.id}) }}">edit</a>
+    <div class="container">
+        <div class="row">
+            {% for article in articles %}
+                <div class="col-md-6">
+                <a href="{{ path('app_article_show', { 'id': article.id }) }}">
+                    <div class="card p-2 mb-4">
+                        {% if article.picture is empty %}
+                            <img src="{{ asset('/build/images/default.jpg') }}" class="card-img-top" alt="{{ article.title }}" style="width: 200px; height: 200px; object-fit: cover;">
+                        {% else %}
+                            <img src="{{ asset('/build/images/' ~ article.picture) }}" class="card-img-top" alt="{{ article.title }}" style="width: 200px; height: 200px; object-fit: cover;">
                         {% endif %}
-					</div>
-				</div>
-			</a>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ article.title }}</h5>
+                            <p class="card-text">{{ article.description|slice(0, 80) ~ (article.description|length > 100 ? '...' : '') }}</p>
+                            <a href="{{ path('app_article_show', { 'id': article.id }) }}" class="btn btn-primary">Afficher</a>
+                            {% if app.user and 'ROLE_ADMIN' in app.user.getRoles() %}
+                                <a href="{{ path('app_article_edit', { 'id': article.id }) }}" class="btn btn-warning">Modifier</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    </a>
+                </div>
+            {% endfor %}
+			<div class="navigation">
+    {{ knp_pagination_render(articles) }}
+</div>
+        </div>
+    </div>
 
-		{% endfor %}
-
-		{% if app.user and 'ROLE_ADMIN' in app.user.getroles()  %}
-
-        <div class="row justify-content-center">
-		
-            <a class="my-5 col-md-2 btn btn-success" href="{{ path('app_article_new') }}">Create new</a>
-        </div>  
-	{% endif %}
-	</div>
-
+    {% if app.user and 'ROLE_ADMIN' in app.user.getRoles() %}
+        <div class="text-center">
+            <a href="{{ path('app_article_new') }}" class="btn btn-success mt-3">Créer un nouvel article</a>
+        </div>
+    {% endif %}
 {% endblock %}
