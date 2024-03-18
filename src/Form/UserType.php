@@ -80,11 +80,11 @@ class UserType extends AbstractType
             ],
         ])
 
-            ->add('avatar', FileType::class, [
-                'label' => 'Avatar (image file)',
-                'required' => false,
-                'mapped' => false, 
-            ])
+        ->add('avatar', FileType::class, [
+            'label' => 'Avatar',
+            'required' => false,
+            'mapped' => true,
+        ])
 
         ;
     }

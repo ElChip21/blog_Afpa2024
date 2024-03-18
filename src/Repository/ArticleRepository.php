@@ -45,4 +45,15 @@ class ArticleRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function findArticlesBySearch($search) : array {
+
+         return $this->createQueryBuilder('a')
+               ->andWhere('a.description LIKE :search')
+               ->setParameter('search', "%".$search."%")
+               ->getQuery()
+               ->getResult()
+           ;
+
+    }
 }

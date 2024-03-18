@@ -144,12 +144,20 @@ public function new(Request $request, EntityManagerInterface $entityManager): Re
 
 
     #[Route('/category/{id_category}', name: 'app_get_article_by_category', methods: ['GET'])]
-    public function getArticleByCategory(EntityManagerInterface $entityManager, int $id_category): Response
+    public function getArticleByCategory(PaginatorInterface $paginator, Request $request, EntityManagerInterface $entityManager, int $id_category): Response
     {
         $articles = $entityManager->getRepository(Article::class)->findBy(array("category" => $id_category));
+
+        
+    $articles = $paginator->paginate(
+        $articles,
+        $request->query->getInt('page', 1),
+        2 
+    );
 
         return $this->render('article/index.html.twig', [
             'articles' => $articles,
         ]);
     }
+
 }

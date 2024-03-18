@@ -65,9 +65,11 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
+
             ->add('avatar', FileType::class, [
-                'label' => 'Avatar (image file)',
+                'label' => 'Avatar',
                 'required' => false,
+                'mapped' => false,
             ])
 
             ->add('first_name', TextType::class, [

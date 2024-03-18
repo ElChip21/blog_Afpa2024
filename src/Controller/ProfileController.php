@@ -54,7 +54,7 @@ class ProfileController extends AbstractController
                     // Set the avatar path in the user entity
                     $user->setAvatar($newFilename);
                 }
-               $entityManager->persist($this->getUser()); // insérer en base
+                
                $entityManager->flush(); // fermer la transaction executée par la bdd
 
                $this->addFlash('success', 'Votre profil a bien été mis à jour !');

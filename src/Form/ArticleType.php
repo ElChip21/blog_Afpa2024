@@ -19,10 +19,10 @@ class ArticleType extends AbstractType
             ->add('description')
 
 
-           ->add('picture', FileType::class, [
+            ->add('picture', FileType::class, [
                 'label' => 'Picture',
                 'required' => false,
-                'mapped' => false, // Empêche le formulaire de lier automatiquement ce champ à une propriété de l'entité
+                'mapped' => false, // ou laissez false si vous ne voulez pas mapper à une propriété d'entité
             ])
             
             ->add('date', null, [
