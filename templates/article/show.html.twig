@@ -30,6 +30,9 @@
                              {{ include('article/_delete_form.html.twig') }}
                         {% endif %}
                     </div>
+                     {% if app.user is not null  %}
+                     {{ include('comment/index.html.twig') }}
+                     {% endif %}
                 </div>
             </div>
         </div>

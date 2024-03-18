@@ -1,0 +1,19 @@
+
+{% form_theme commentForm 'bootstrap_5_layout.html.twig' %}
+
+    <div class="row col-md-10 mx-auto">
+        {{ form_start(commentForm, { 'attr': {'class': 'row'} }) }}
+
+            {{ form_row(commentForm.contenu, {'row_attr': {'class': 'col-md-6'}}) }}
+            {{ form_row(commentForm._token) }}
+
+
+
+            <button type="submit" class="btn btn-success mt-3"> Ajouter un commentaire </button>
+
+        {{ form_end(commentForm, {render_rest: false}) }}
+
+    </div>
+
+
+

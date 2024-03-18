@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Form\ArticleType;
+use App\Entity\Comments;
+use App\Form\CommentType;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -79,13 +81,46 @@ public function new(Request $request, EntityManagerInterface $entityManager): Re
     ]);
 }
 
-    #[Route('/{id}', name: 'app_article_show', methods: ['GET'])]
-    public function show(Article $article): Response
+
+
+
+    #[Route('/{id}', name: 'app_article_show', methods: ['GET', 'POST'])]
+    public function show(Article $article, Request $request, EntityManagerInterface $entityManager): Response
     {
-        return $this->render('article/show.html.twig', [
-            'article' => $article,
-        ]);
+     
+        
+        $comment = new Comments();
+
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $comment->setUserId($this->getUser());
+            $comment->setArticleId($article);
+            $comment->setDateCreation(new \DateTime());
+            $comment->setIsVerified(false);
+
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+
+            $this->addFlash('success', 'Votre commentaire a bien été ajouté.');
+
+        }
+
+         return $this->render('article/show.html.twig', [
+           'article' => $article,
+           'commentForm' => $form,
+        ]);       
+        
     }
+        
+       
+    
+
+
+
+
     #[Route('/{id}/edit', name: 'app_article_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Article $article, EntityManagerInterface $entityManager): Response
     {
@@ -125,7 +160,7 @@ public function new(Request $request, EntityManagerInterface $entityManager): Re
         ]);
     }
 
-    #[Route('/{id}', name: 'app_article_delete', methods: ['POST'])]
+    #[Route('/{id}/delete', name: 'app_article_delete', methods: ['POST'])]
     public function delete(Request $request, Article $article, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$article->getId(), $request->request->get('_token'))) {
