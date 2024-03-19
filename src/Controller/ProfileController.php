@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Form\ChangePasswordFormType;
 use App\Form\UserType;
+use App\Service\ImageService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,37 +26,18 @@ class ProfileController extends AbstractController
 
 
     #[Route('/profile/edit', name: 'app_profile_edit')]
-    public function modify(Request $request, EntityManagerInterface $entityManager): Response
+    public function modify(Request $request, EntityManagerInterface $entityManager, ImageService $imageService): Response
     {
             $user = $this->getUser();
-            $form = $this->createForm(UserType::class, $this->getUser());
+            $form = $this->createForm(UserType::class, $user);
             $form->handleRequest($request);
  
             if ($form->isSubmitted() && $form->isValid()) {
-                // Handle avatar upload
-                $avatarFile = $form->get('avatar')->getData();
-                if ($avatarFile) {
-                    // Generate a unique filename for the file
-                    $newFilename = uniqid().'.'.$avatarFile->guessExtension();
-        
-                    // Move the file to the desired directory
-                    try {
-                        $avatarFile->move(
-                            $this->getParameter('avatar_directory'),
-                            $newFilename
-                        );
-                    } catch (FileException $e) {
-                        // Handle file upload error
-                        // For example, return a flash message to the user
-                        $this->addFlash('error', 'An error occurred while uploading the avatar.');
-                        return $this->redirectToRoute('app_register');
-                    }
-        
-                    // Set the avatar path in the user entity
-                    $user->setAvatar($newFilename);
-                }
-                
-               $entityManager->flush(); // fermer la transaction executée par la bdd
+
+                $fileName = $imageService->copyImage("avatar", $this->getParameter("avatar_directory"), $form);
+                $user->setAvatar($fileName);
+                $entityManager->persist($user);
+                $entityManager->flush();
 
                $this->addFlash('success', 'Votre profil a bien été mis à jour !');
                return $this->redirectToRoute('app_profile', [], Response::HTTP_SEE_OTHER);

@@ -12,9 +12,9 @@
                 <a href="{{ path('app_article_show', { 'id': article.id }) }}">
                     <div class="card p-2 mb-4">
                         {% if article.picture is empty %}
-                            <img src="{{ asset('/build/images/default.jpg') }}" class="card-img-top" alt="{{ article.title }}" style="width: 200px; height: 200px; object-fit: cover;">
+                            <img src="{{ asset('/uploads/articles/default.jpg') }}" class="card-img-top" alt="{{ article.title }}" style="width: 200px; height: 200px; object-fit: cover;">
                         {% else %}
-                            <img src="{{ asset('/build/images/' ~ article.picture) }}" class="card-img-top" alt="{{ article.title }}" style="width: 200px; height: 200px; object-fit: cover;">
+                            <img src="{{ asset('/uploads/articles/' ~ article.picture) }}" class="card-img-top" alt="{{ article.title }}" style="width: 200px; height: 200px; object-fit: cover;">
                         {% endif %}
                         <div class="card-body">
                             <h5 class="card-title">{{ article.title }}</h5>

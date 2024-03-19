@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
+use App\Service\ImageService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -27,7 +28,7 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, ImageService $imageService): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -35,27 +36,8 @@ class RegistrationController extends AbstractController
     
         if ($form->isSubmitted() && $form->isValid()) {
             // Handle avatar upload
-            $avatarFile = $form->get('avatar')->getData();
-            if ($avatarFile) {
-                // Generate a unique filename for the file
-                $newFilename = uniqid().'.'.$avatarFile->guessExtension();
-    
-                // Move the file to the desired directory
-                try {
-                    $avatarFile->move(
-                        $this->getParameter('avatar_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // Handle file upload error
-                    // For example, return a flash message to the user
-                    $this->addFlash('error', 'An error occurred while uploading the avatar.');
-                    return $this->redirectToRoute('app_register');
-                }
-    
-                // Set the avatar path in the user entity
-                $user->setAvatar($newFilename);
-            }
+            $fileName = $imageService->copyImage("avatar", $this->getParameter("avatar_directory"), $form);
+            $user->setAvatar($fileName);
     
             // Encode the plain password
             $user->setPassword(
@@ -65,22 +47,28 @@ class RegistrationController extends AbstractController
                 )
             );
     
-            // Persist the user entity
-            $entityManager->persist($user);
-            $entityManager->flush();
+            try {
+                // Persist the user entity
+                $entityManager->persist($user);
+                $entityManager->flush();
     
-            // Generate a signed URL and email it to the user
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-                (new TemplatedEmail())
-                    ->from(new Address('morgansclavo73@gmail.com', 'Morgan Sclavo'))
-                    ->to($user->getEmail())
-                    ->subject('Please Confirm your Email')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
-            );
+                // Generate a signed URL and email it to the user
+                $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+                    (new TemplatedEmail())
+                        ->from(new Address('morgansclavo73@gmail.com', 'Morgan Sclavo'))
+                        ->to($user->getEmail())
+                        ->subject('Please Confirm your Email')
+                        ->htmlTemplate('registration/confirmation_email.html.twig')
+                );
     
-            // Redirect the user to the login page after successful registration
-            $this->addFlash('success', 'Votre inscription est bien réussie !');
-            return $this->redirectToRoute('app_login');
+                // Redirect the user to the login page after successful registration
+                $this->addFlash('success', 'Votre inscription est bien réussie !');
+                return $this->redirectToRoute('app_login');
+            } catch (\Exception $e) {
+                // Handle exceptions (e.g., email sending failure)
+                $this->addFlash('error', 'Une erreur s\'est produite lors de l\'inscription. Veuillez réessayer.');
+                // Log the exception or handle it in a way that fits your application's needs
+            }
         }
     
         // Render the registration form template with the form object

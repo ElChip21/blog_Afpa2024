@@ -22,7 +22,7 @@ class Comments
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $author = null;
 
-    
+
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]

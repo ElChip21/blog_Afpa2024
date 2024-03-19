@@ -7,6 +7,7 @@ use App\Form\ArticleType;
 use App\Entity\Comments;
 use App\Form\CommentType;
 use App\Repository\ArticleRepository;
+use App\Service\ImageService;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -39,41 +40,31 @@ class ArticleController extends AbstractController
     }
 
     #[Route('/new', name: 'app_article_new', methods: ['GET', 'POST'])]
-public function new(Request $request, EntityManagerInterface $entityManager): Response
+public function new(Request $request, EntityManagerInterface $entityManager, ImageService $imageService): Response
 {
     $article = new Article();
     $form = $this->createForm(ArticleType::class, $article);
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-        // Handle picture upload
-        $pictureFile = $form->get('picture')->getData();
-        if ($pictureFile) {
-            $newFilename = uniqid().'.'.$pictureFile->guessExtension();
-
-            try {
-                $pictureFile->move(
-                    $this->getParameter('article_picture_directory'),
-                    $newFilename
-                );
-            } catch (FileException $e) {
-                $this->addFlash('error', 'An error occurred while uploading the picture.');
-                return $this->redirectToRoute('app_article_new');
-            }
-
-            $article->setPicture($newFilename);
-        }
-
+      
+        $fileName = $imageService->copyImage("avatar", $this->getParameter("article_picture_directory"), $form);
+        $article->setPicture($fileName);
         $entityManager->persist($article);
         $entityManager->flush();
 
+
+        $this->addFlash(
+            'success',
+            'Votre article a bien été ajouté'
+        );
+
+        
         return $this->redirectToRoute('app_article_index', [], Response::HTTP_SEE_OTHER);
+     
     }
 
-    $this->addFlash(
-        'success',
-        'Votre article a bien été ajouté'
-    );
+   
 
     return $this->render('article/new.html.twig', [
         'article' => $article,
@@ -90,12 +81,13 @@ public function new(Request $request, EntityManagerInterface $entityManager): Re
      
         
         $comment = new Comments();
-
+        $user = $this->getUser();
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $comment->setUserId($this->getUser());
+            $comment->setAuthor($user->getFirstName());
             $comment->setArticleId($article);
             $comment->setDateCreation(new \DateTime());
             $comment->setIsVerified(false);
@@ -122,36 +114,29 @@ public function new(Request $request, EntityManagerInterface $entityManager): Re
 
 
     #[Route('/{id}/edit', name: 'app_article_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Article $article, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Article $article, EntityManagerInterface $entityManager, ImageService $imageService): Response
     {
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
     
         if ($form->isSubmitted() && $form->isValid()) {
             // Handle picture upload
-            $pictureFile = $form->get('picture')->getData();
-            if ($pictureFile) {
-                $newFilename = uniqid().'.'.$pictureFile->guessExtension();
+            
+        $fileName = $imageService->copyImage("picture", $this->getParameter("article_picture_directory"), $form);
+        $article->setPicture($fileName);
+        $entityManager->persist($article);
+        $entityManager->flush();
+
+
+        $this->addFlash(
+            'success',
+            'Votre article a bien été ajouté'
+        );
+
+        
+        return $this->redirectToRoute('app_article_index', [], Response::HTTP_SEE_OTHER);
     
-                try {
-                    $pictureFile->move(
-                        $this->getParameter('article_picture_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    $this->addFlash('error', 'An error occurred while uploading the picture.');
-                    return $this->redirectToRoute('app_article_edit', ['id' => $article->getId()]);
-                }
-    
-                $article->setPicture($newFilename);
-            }
-    
-            $entityManager->flush();
-            $this->addFlash(
-                'success',
-                'Votre article a bien été modifié'
-            );
-            return $this->redirectToRoute('app_article_index', [], Response::HTTP_SEE_OTHER);
+          
         }
     
         return $this->render('article/edit.html.twig', [

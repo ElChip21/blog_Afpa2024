@@ -21,9 +21,9 @@
                         <a href="{{ path('app_article_show', { id : article.id })}}" class="card text-decoration-none">
                             <div class="card-body">
                                 {% if article.picture is empty %}
-                                    <img src="{{ asset('/build/images/default.jpg') }}" class="card-img-top image" alt="{{ article.title }}" title="{{ article.title }}">
+                                    <img src="{{ asset('/uploads/articles/default.jpg') }}" class="card-img-top image" alt="{{ article.title }}" title="{{ article.title }}">
                                 {% else %}
-                                    <img src="{{ asset('/build/images/' ~ article.picture) }}" class="card-img-top image" alt="{{ article.title }}" title="{{ article.title }}">
+                                    <img src="{{ asset('/uploads/articles/' ~ article.picture) }}" class="card-img-top image" alt="{{ article.title }}" title="{{ article.title }}">
                                 {% endif %}
                                 <h5 class="card-title">{{ article.title }}</h5>
                             <p class="card-text">{{ article.description|slice(0, 80) ~ (article.description|length > 100 ? '...' : '') }}</p>

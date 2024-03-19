@@ -18,6 +18,13 @@ a {
     text-decoration: none;
 }
 
+ul {
+    list-style-type: none; /* Supprime les puces des listes non ordonnées */
+}
+
+ol {
+    list-style-type: none; /* Supprime les numéros des listes ordonnées */
+}
 
 .image {
     max-width: 387px; /* Largeur maximale */

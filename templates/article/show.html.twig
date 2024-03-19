@@ -15,13 +15,27 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
-                            <img class="img-fluid" src="{{ asset('/build/images/' ~ article.picture) }}" alt="{{ article.title }}" title="{{ article.title }}">
+                            <img class="img-fluid" src="{{ asset('/uploads/articles/' ~ article.picture) }}" alt="{{ article.title }}" title="{{ article.title }}">
                         </div>
                         <div class="col-md-6">
                             <p>{{ article.description }}</p>
                         </div>
                     </div>
                 </div>
+                
+<div class="card-footer">
+    <h3>Commentaires</h3>
+    {% if article.comments|length > 0 %}
+        <ul>
+            {% for comment in article.comments %}
+                <li>{{ comment.author }} - {{ comment.dateCreation|date('Y-m-d H:i:s') }}</li>
+                <p>{{ comment.contenu }}</p>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Aucun commentaire pour le moment.</p>
+    {% endif %}
+</div>
                 <div class="card-footer text-center">
                     <div class="my-3">
                         <a class="btn btn-outline-primary mx-2" href="{{ path('app_article_index') }}">Retour à la liste</a>
@@ -34,6 +48,7 @@
                      {{ include('comment/index.html.twig') }}
                      {% endif %}
                 </div>
+
             </div>
         </div>
     </div>
