@@ -87,4 +87,12 @@ class Category
 
         return $this;
     }
+
+    public function __toString(){ // Fonction prédéfinie qui converti en chaîne de caractères
+
+        return $this->title;
+
+
+    }
+    
 }

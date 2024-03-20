@@ -23,19 +23,7 @@
                     </div>
                 </div>
                 
-<div class="card-footer">
-    <h3>Commentaires</h3>
-    {% if article.comments|length > 0 %}
-        <ul>
-            {% for comment in article.comments %}
-                <li>{{ comment.author }} - {{ comment.dateCreation|date('Y-m-d H:i:s') }}</li>
-                <p>{{ comment.contenu }}</p>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>Aucun commentaire pour le moment.</p>
-    {% endif %}
-</div>
+
                 <div class="card-footer text-center">
                     <div class="my-3">
                         <a class="btn btn-outline-primary mx-2" href="{{ path('app_article_index') }}">Retour à la liste</a>
@@ -48,7 +36,19 @@
                      {{ include('comment/index.html.twig') }}
                      {% endif %}
                 </div>
-
+<div class="card-footer">
+    <h3>Commentaires</h3>
+    {% if article.comments|length > 0 %}
+        <ul>
+            {% for comment in article.comments %}
+<li>{{ comment.author ~ ' ' ~ comment.userId.lastName }} - {{ comment.dateCreation|date('Y-m-d') }}</li>
+                <p>{{ comment.contenu }}</p>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Aucun commentaire pour le moment.</p>
+    {% endif %}
+</div>
             </div>
         </div>
     </div>

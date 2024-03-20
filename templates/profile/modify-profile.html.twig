@@ -7,20 +7,26 @@
 
 {% block body %}
 
-    <div class="row col-md-10 mx-auto">
-{{ form_start(profileForm, { 'attr': {'class': 'row', 'novalidate': 'novalidate', 'enctype': 'multipart/form-data'} }) }}
+<div class="row col-md-10 mx-auto">
+    {{ form_start(profileForm, { 'attr': {'class': 'row', 'novalidate': 'novalidate', 'enctype': 'multipart/form-data'} }) }}
 
-            {{ form_row(profileForm.firstName, {'row_attr': {'class': 'col-md-6'}}) }}
-            {{ form_row(profileForm.lastName, {'row_attr': {'class': 'col-md-6'}}) }}
-            {{ form_row(profileForm.adress, {'row_attr': {'class': 'col-md-6'}}) }}
-            {{ form_row(profileForm.CodePostal, {'row_attr': {'class': 'col-md-6'}}) }}
-            {{ form_row(profileForm.phone, {'row_attr': {'class': 'col-md-6'}}) }}
-            {{ form_row(profileForm.avatar, {'attr': {'class': 'form-control-file'}, 'label': 'Avatar (image file)'}) }}
-            {{ form_row(profileForm._token) }}
+    {{ form_row(profileForm.firstName, {'row_attr': {'class': 'col-md-6'}}) }}
+    {{ form_row(profileForm.lastName, {'row_attr': {'class': 'col-md-6'}}) }}
+    {{ form_row(profileForm.adress, {'row_attr': {'class': 'col-md-6'}}) }}
+    {{ form_row(profileForm.CodePostal, {'row_attr': {'class': 'col-md-6'}}) }}
+    {{ form_row(profileForm.phone, {'row_attr': {'class': 'col-md-6'}}) }}
+    {{ form_row(profileForm.avatar, {'attr': {'class': 'form-control-file'}, 'label': 'Avatar (image file)'}) }}
+    {{ form_row(profileForm._token) }}
 
-            <button type="submit" class="btn btn-success mt-3">Modifier mes informations</button>
+    <button type="submit" class="btn btn-success mt-3">Modifier mes informations</button>
 
-        {{ form_end(profileForm, {render_rest: false}) }}
+    <div>
+        {% if profileForm.avatar.vars.value %}
+            <img src="{{ asset('/uploads/profile/' ~ profileForm.avatar.vars.value) }}" class="card-img-top" alt="Image actuelle" style="max-width: 200px; max-height: 200px; object-fit: cover;">
+        {% endif %}
     </div>
+
+    {{ form_end(profileForm, {render_rest: false}) }}
+</div>
 
 {% endblock %}

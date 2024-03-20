@@ -36,12 +36,12 @@ class ArticleType extends AbstractType
                     ])
                 ],
             ])
-            ->add('date', null, [
-                'widget' => 'single_text',
-            ])
+            // ->add('date', null, [
+            //     'widget' => 'single_text',
+            // ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
-                'choice_label' => 'id',
+                'choice_label' => 'title',
             ]);
     }
 
