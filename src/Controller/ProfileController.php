@@ -28,27 +28,24 @@ class ProfileController extends AbstractController
     #[Route('/profile/edit', name: 'app_profile_edit')]
     public function modify(Request $request, EntityManagerInterface $entityManager, ImageService $imageService): Response
     {
-            $user = $this->getUser();
-            $form = $this->createForm(UserType::class, $user);
-            $form->handleRequest($request);
- 
-            if ($form->isSubmitted() && $form->isValid()) {
+        $user = $this->getUser();
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
 
-                $fileName = $imageService->copyImage("avatar", $this->getParameter("avatar_directory"), $form);
-                $user->setAvatar($fileName);
-                $entityManager->persist($user);
-                $entityManager->flush();
+        if ($form->isSubmitted() && $form->isValid()) {
 
-               $this->addFlash('success', 'Votre profil a bien été mis à jour !');
-               return $this->redirectToRoute('app_profile', [], Response::HTTP_SEE_OTHER);
+            $fileName = $imageService->copyImage("avatar", $this->getParameter("avatar_directory"), $form);
+            $user->setAvatar($fileName);
+            $entityManager->persist($user);
+            $entityManager->flush();
 
+            $this->addFlash('success', 'Votre profil a bien été mis à jour !');
+            return $this->redirectToRoute('app_profile', [], Response::HTTP_SEE_OTHER);
 
-              }
-            
+        }
 
-
-               return $this->render('profile/modify-profile.html.twig', [
-                   'profileForm' => $form,
+        return $this->render('profile/modify-profile.html.twig', [
+            'profileForm' => $form,
         ]);
     }
 
@@ -61,27 +58,27 @@ class ProfileController extends AbstractController
         $form = $this->createForm(ChangePasswordFormType::class, $this->getUser());
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() ) {
-            if ($passwordEncoder->isPasswordValid($user, $form['oldPassword']->getData())){
+        if ($form->isSubmitted()) {
+            if ($passwordEncoder->isPasswordValid($user, $form['oldPassword']->getData())) {
 
-          if ($form->isValid()) {
-         $newEncodePassword = $passwordEncoder->hashPassword($user, $form->get('password')->getData());
-         $user->setPassword($newEncodePassword);
+                if ($form->isValid()) {
+                    $newEncodePassword = $passwordEncoder->hashPassword($user, $form->get('password')->getData());
+                    $user->setPassword($newEncodePassword);
 
-           $entityManager->persist($this->getUser()); // insérer en base
-           $entityManager->flush(); // fermer la transaction executée par la bdd
+                    $entityManager->persist($this->getUser()); // insérer en base
+                    $entityManager->flush(); // fermer la transaction executée par la bdd
 
-           $this->addFlash('success', 'Votre mot de passe a bien été mis à jour !');
+                    $this->addFlash('success', 'Votre mot de passe a bien été mis à jour !');
 
 
-           return $this->redirectToRoute('app_profile', [], Response::HTTP_SEE_OTHER);
-        
-          }
-    }
-}
-            return $this->render('profile/modify-password.html.twig', [
-                'passwordForm' => $form,
-            ]);
+                    return $this->redirectToRoute('app_profile', [], Response::HTTP_SEE_OTHER);
+
+                }
+            }
+        }
+        return $this->render('profile/modify-password.html.twig', [
+            'passwordForm' => $form,
+        ]);
     }
 
 

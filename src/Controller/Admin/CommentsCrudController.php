@@ -23,7 +23,6 @@ class CommentsCrudController extends AbstractCrudController
         return [
             // IdField::new('id'),
             TextField::new('contenu'),
-            TextField::new('author'),
             AssociationField::new('userId'),
             AssociationField::new('articleId'),
             DateField::new('dateCreation'),

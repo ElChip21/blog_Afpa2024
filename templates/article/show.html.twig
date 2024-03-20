@@ -41,7 +41,7 @@
     {% if article.comments|length > 0 %}
         <ul>
             {% for comment in article.comments %}
-<li>{{ comment.author ~ ' ' ~ comment.userId.lastName }} - {{ comment.dateCreation|date('Y-m-d') }}</li>
+<li>{{ comment.userId }} - {{ comment.dateCreation|date('Y-m-d') }}</li>
                 <p>{{ comment.contenu }}</p>
             {% endfor %}
         </ul>

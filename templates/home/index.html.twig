@@ -16,7 +16,17 @@
 
         <div class="col-md-8">
             <div class="row">
+
+            <form class="col-md-7">
+                <select class="form-select" id="filter" name="filter">
+                    <option value="asc"> Par date croissante </option>
+                    <option value="desc"> Par date décroissante</option>
+                </select>
+            </form>
+
                 {% for article in articles %}
+
+                <div class="" id="list-articles">
                     <div class="col-md-6 mb-3">
                         <a href="{{ path('app_article_show', { id : article.id })}}" class="card text-decoration-none">
                             <div class="card-body">
@@ -30,6 +40,8 @@
                             </div>
                         </a>
                     </div>
+                </div>
+
                 {% endfor %}
 				<div class="navigation">
     {{ knp_pagination_render(articles) }}
