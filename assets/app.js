@@ -24,7 +24,8 @@ $(document).ready(function () {
 
             try {
                 // Construit l'URL avec le filtre
-                const url = `/${filter}`;
+                const url = `/filter/${filter}`;
+
 
                 // Exécute la requête asynchrone
                 const response = await fetch(url, {
@@ -43,10 +44,10 @@ $(document).ready(function () {
                 const data = await response.json();
 
                 // Construit une chaîne HTML pour afficher les articles
-                                let listArticles = "";
+                let listArticles = "";
                 for (let i = 0; i < data.length; i++) {
                     listArticles += "<a href='" + data[i].url + "'>" +
-                        "<div class='d-flex article p-3'>" +
+                    "<div class='d-flex article p-3'>" +
                         "<img class='col-md-4' src='/uploads/articles/" + data[i].picture + "' alt='" + data[i].title + "' title='" + data[i].title + "'>" +
                         "<div class='col-md-8 d-flex flex-column ms-3'>" +
                         "<h3>" +

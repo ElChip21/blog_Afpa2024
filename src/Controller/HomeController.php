@@ -75,7 +75,7 @@ class HomeController extends AbstractController
     }
 
 
-    #[Route('/{filter}', name: 'app_home_filter')]
+    #[Route('/filter/{filter}', name: 'app_home_filter')]
 
     public function getArticleByFilter(ArticleRepository $articleRepository, CategoryRepository $categoryRepository, Request $request, string $filter): JsonResponse
     {
@@ -93,8 +93,9 @@ class HomeController extends AbstractController
             'date' => $article->getDate()->format('Y-m-d'),
             'category_id' => $article->getCategory() ? $article->getCategory()->getId() : null,
             'category_name' => $article->getCategory() ? $article->getCategory()->getTitle() : null,
+            'url' => $this->generateUrl('app_article_show', ['id' => $article->getId()], UrlGeneratorInterface::ABSOLUTE_URL),
 
-            'url' => $this->generateUrl('app_article_show', ['id' => $article->getId()], UrlGeneratorInterface::ABSOLUTE_URL)
+
 
             ];       
             
