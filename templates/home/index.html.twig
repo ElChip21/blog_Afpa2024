@@ -15,14 +15,19 @@
         </div>
 
         <div class="col-md-8">
+     	<form class="col-md-12">
+				<select class="form-select" id="filter" name="filter">
+					<option value="ASC">
+						Par date croissante
+					</option>
+					<option value="DESC">
+						Par date décroissante
+					</option>
+				</select>
+			</form>
             <div class="row">
 
-            <form class="col-md-7">
-                <select class="form-select" id="filter" name="filter">
-                    <option value="asc"> Par date croissante </option>
-                    <option value="desc"> Par date décroissante</option>
-                </select>
-            </form>
+           
 
                 {% for article in articles %}
 

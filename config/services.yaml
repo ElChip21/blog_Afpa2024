@@ -7,6 +7,7 @@ parameters:
     local: 'fr'
     avatar_directory: '%kernel.project_dir%/public/uploads/profile'
     article_picture_directory: '%kernel.project_dir%/public/uploads/articles'
+    product_picture_directory: '%kernel.project_dir%/public/uploads/products'
     app.mailAddress: '%env(MAIL_ADDRESS)%'
 
 services:
@@ -15,6 +16,12 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
+    app.authentication_success_handler:
+        class: App\Security\MonAuthenticationSuccessHandler
+        arguments: ['@security.http_utils']
+        tags:
+            - { name: 'monolog.logger', channel: 'security' }
+            
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:

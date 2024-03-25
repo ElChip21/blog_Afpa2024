@@ -48,7 +48,7 @@ public function new(Request $request, EntityManagerInterface $entityManager, Ima
 
     if ($form->isSubmitted() && $form->isValid()) {
       
-        $fileName = $imageService->copyImage("avatar", $this->getParameter("article_picture_directory"), $form);
+        $fileName = $imageService->copyImage("picture", $this->getParameter("article_picture_directory"), $form);
         $article->setPicture($fileName);
         $entityManager->persist($article);
         $entityManager->flush();

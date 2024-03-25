@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Payment Success{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Payment Successful</h4>
+                    </div>
+                    <div class="card-body">
+                        <p>Your payment was successful.</p>
+                        <p>Invoice Number: {{ invoiceNumber }}</p>
+                        <p>Amount Paid: {{ amount }} $</p>
+                        <p>A copy of your invoice has been sent to your email address.</p>
+                        <a href="{{ path('app_home') }}" class="btn btn-primary">Back to Home</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

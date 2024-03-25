@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CartController!{% endblock %}
+
+{% block body %}
+<style>
+/* public/css/cart.css */
+.cart-container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.cart-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+.cart-total {
+    margin-top: 20px;
+    text-align: right;
+    font-size: 20px;
+}
+
+</style>
+
+
+<div class="cart-container">
+    <h2>Votre panier</h2>
+
+    {% if cartItems is not empty %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Article</th>
+                    <th>Quantité</th>
+                    <th>Prix Unitaire</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            {% for i in 0..(cartItems.id|length - 1) %}
+                <tr>
+                    <td>{{ cartItems.id[i] }}</td>
+                    <td>{{ cartItems.name[i] }}</td>
+                    <td>{{ cartItems.description[i] }}</td>
+                    <td><img style="width:100px" src="{{ asset('uploads/products/' ~ cartItems.picture[i]) }}" alt="Image de {{ cartItems.name[i] }}" /></td>
+                    <td>{{ cartItems.price[i] }} €</td>
+                    <td>{{ cartItems.quantity[i] }}</td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+        <div class="cart-total">
+            Total: <span>{{ cartTotal }} €</span>
+        </div>
+
+        <form action="{{path('pay')}}" method="POST">
+            <input type="submit" name="payer" value="Pay" class="btn btn-outline-secondary">
+        </form>
+
+        <a href="{{path('app_cart_delete')}}" class="btn btn-warning"> Vider le panier </a>
+  {% else %}
+        <tr>
+            <td colspan="6">Votre panier est vide.</td>
+        </tr>
+    {% endif %}
+    
+</div>
+
+{% endblock %}
