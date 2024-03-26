@@ -1,52 +1,76 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Facture</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
+        body { font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif; }
+        .invoice-box { max-width: 800px; margin: auto; padding: 30px; border: 1px solid #eee; box-shadow: 0 0 10px rgba(0, 0, 0, .15); }
+        .margin-top { margin-top: 50px; }
+        .justify-center { text-align: center; }
+        .invoice-box table { width: 100%; line-height: inherit; text-align: left; }
+        .invoice-box table td { padding: 5px; vertical-align: top; }
+        .invoice-box table tr td:nth-child(2) { text-align: right; }
+        .invoice-box table tr.top table td { padding-bottom: 20px; }
+        .invoice-box table tr.top table td.title { font-size: 45px; line-height: 45px; color: #333; }
+        .invoice-box table tr.information table td { padding-bottom: 40px; }
+        .invoice-box table tr.heading td { background: #eee; border-bottom: 1px solid #ddd; font-weight: bold; }
+        .invoice-box table tr.details td { padding-bottom: 20px; }
+        .invoice-box table tr.item td{ border-bottom: 1px solid #eee; }
+        .invoice-box table tr.item.last td { border-bottom: none; }
+        .invoice-box table tr.total td:nth-child(2) { border-top: 2px solid #eee; font-weight: bold; }
     </style>
 </head>
 <body>
-    <h2>Facture</h2>
-    <p><strong>Numéro de facture :</strong> {{ invoiceNumber }}</p>
-    <p><strong>Date :</strong> {{ date|date('d/m/Y') }}</p>
-    <table>
-        <thead>
-            <tr>
-                <th>Produit</th>
-                <th>Prix unitaire</th>
-                <th>Quantité</th>
-                <th>Total</th>
+    <div class="invoice-box">
+        <table cellpadding="0" cellspacing="0">
+            <tr class="top">
+                <td colspan="2">
+                    <table>
+                        <tr>
+                            <td class="title">Facture</td>
+                            <td>
+                                Facture #: {{ invoiceNumber }}<br>
+                                Créée: {{ date|date("d-m-Y") }}<br>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            {% for product in products %}
-                <tr>
-                    <td>{{ product.name }}</td>
-                    <td>{{ product.price }}</td>
-                    <td>{{ product.quantity }}</td>
-                    <td>{{ product.price * product.quantity }}</td>
-                </tr>
+            
+            <tr class="information">
+                <td colspan="2">
+                    <table>
+                        <tr>
+                            <td>
+                                {{ user.firstName }} {{ user.lastName }}<br>
+                                {{ user.adress }}<br>
+                                {{ user.CodePostal }}
+                            </td>
+                            <td>
+                                <!-- Les informations de l'entreprise ou de l'émetteur de la facture peuvent être ajoutées ici si nécessaire -->
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            
+            <tr class="heading">
+                <td>Article</td>
+                <td>Prix</td>
+            </tr>
+            
+            {% for detail in orderDetails %}
+            <tr class="item">
+                <td>{{ detail.product.name }}</td>
+                <td>{{ detail.product.price }} €</td>
+            </tr>
             {% endfor %}
-        </tbody>
-    </table>
-    <p><strong>Montant total :</strong> {{ Amount }}</p>
+            
+            <tr class="total">
+                <td></td>
+                <td>Total: {{ amount }} €</td>
+            </tr>
+        </table>
+    </div>
 </body>
 </html>

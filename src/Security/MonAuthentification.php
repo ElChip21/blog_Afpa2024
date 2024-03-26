@@ -30,5 +30,3 @@ class MonAuthenticationSuccessHandler implements AuthenticationSuccessHandlerInt
         return $this->httpUtils->createRedirectResponse($request, 'route_par_defaut');
     }
 }
-
-?>
