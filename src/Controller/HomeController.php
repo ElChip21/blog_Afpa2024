@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Translation\TranslatableMessage;
 
 class HomeController extends AbstractController
 {
@@ -59,6 +60,9 @@ class HomeController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function index(ArticleRepository $articleRepository, CategoryRepository $categoryRepository, PaginatorInterface $paginator, Request $request): Response
     {
+
+        $message = new TranslatableMessage('Symfony is great!');
+
         $articles = $paginator->paginate(
             $articleRepository->findAll(),
             $request->query->getInt('page', 1),

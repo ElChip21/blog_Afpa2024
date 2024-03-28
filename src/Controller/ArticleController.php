@@ -75,8 +75,8 @@ public function new(Request $request, EntityManagerInterface $entityManager, Ima
 
 
 
-    #[Route('/{id}', name: 'app_article_show', methods: ['GET', 'POST'])]
-    public function show(Article $article, Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/{id}', name: 'app_article_show', methods: ['GET', 'POST'], requirements: ['id' => '\d+'])]
+    public function show(Article $article, Request $request, EntityManagerInterface $entityManager, int $id = 1): Response
     {
      
         
