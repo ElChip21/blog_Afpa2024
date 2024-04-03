@@ -61,7 +61,7 @@ class HomeController extends AbstractController
     public function index(ArticleRepository $articleRepository, CategoryRepository $categoryRepository, PaginatorInterface $paginator, Request $request): Response
     {
 
-        $message = new TranslatableMessage('Symfony is great!');
+
 
         $articles = $paginator->paginate(
             $articleRepository->findAll(),
