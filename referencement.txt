@@ -1,0 +1,53 @@
+-----------
+----- CE QU'ON PEUT GÉRÉR CÔTÉ CODE
+-----------
+
+1. Utilisez des Balises Sémantiques HTML5
+Structure de page claire: Utilisez des balises telles que <header>, <footer>, <nav>, <section>, et <article> pour structurer votre contenu de manière logique.
+Titres et sous-titres: Utilisez les balises <h1> à <h6> pour hiérarchiser votre contenu.
+
+2. Assurez-vous que votre site est Responsive
+Viewport: Utilisez la balise <meta name="viewport" content="width=device-width, initial-scale=1.0"> pour assurer une bonne lisibilité sur les appareils mobiles.
+CSS Media Queries: Adaptez votre design aux différents écrans avec les media queries.
+
+3. Optimisez le Temps de Chargement
+Compresser les images: Utilisez des formats modernes comme WebP pour les images.
+Minifiez CSS/JS: Réduisez la taille de vos fichiers CSS et JavaScript.
+Utilisez le lazy loading pour les images: Chargez les images seulement quand elles sont nécessaires.
+
+4. Assurez-vous que votre site est Accessible
+Attributs alt pour les images: Fournissez des descriptions textuelles pour les images.
+Navigation au clavier: Assurez-vous que votre site peut être navigué avec un clavier.
+Contrastes de couleurs: Vérifiez les contrastes pour une meilleure lisibilité.
+
+5. Utilisez les Métadonnées et les Balises de Référencement
+Balise title et descriptions: Ces balises sont cruciales pour le SEO. Assurez-vous qu'elles sont uniques pour chaque page et qu'elles décrivent le contenu de manière précise.
+Balises Open Graph pour les réseaux sociaux: Utilisez ces balises pour contrôler l'apparence de vos pages lorsqu'elles sont partagées sur les réseaux sociaux.
+6. Suivez les Standards W3C
+Validation du code: Utilisez le validateur W3C pour vérifier que votre HTML et CSS sont conformes aux standards.
+CSS valide: Assurez-vous que votre CSS est également validé.
+
+7. Améliorez la Navigation et la Structure des Liens
+Plan du site XML: Créez un sitemap XML pour aider les moteurs de recherche à mieux indexer votre site.
+Structure d'URL claire: Utilisez des URLs lisibles et descriptives.
+
+8. Contenu de Qualité et Mots-clés Pertinents
+Contenu unique et pertinent: Publiez régulièrement du contenu de qualité et utilisez judicieusement les mots-clés sans faire de bourrage.
+
+9. Utilisation des balises schema.org (Données Structurées)
+Microdonnées: Utilisez les données structurées pour aider les moteurs de recherche à comprendre le contenu de vos pages.
+
+-----------
+----- CE QU'ON DOIT METTRE EN PLACEE EN DEHORS DU CODE
+-----------
+
+.htaccess (fichier de configuration pour le serveur qui va héberger notre site)
+    => permet de gérer la configuration serveur
+    => c'est ici qu'on va gérér les redirections vers les urls REST sur votre serveur
+
+robots.txt (fichier de configuration pour les bots google)
+    => on va pouvoir dire à Google ce qu'il peut indexer (référencer) et ce qu'il ne doit pas référencer 
+    => backoffice + style + javascript...
+
+sitemap.xml (plan de votre site en termes d'url)
+    => ça sert à aider le robot qui parcourir votre site pour l'indexer

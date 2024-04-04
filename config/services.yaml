@@ -34,3 +34,9 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+security:
+    # Your security configurations go here
+    # For example:
+    # access_control:
+    #     - { path: ^/checkout, roles: ROLE_USER }

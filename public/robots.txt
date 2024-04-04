@@ -1,0 +1,27 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /css/
+Disallow: /js/
+Disallow: /*.jpg
+Disallow: /*.png
+Disallow: /*.gif
+Disallow: /styles/
+Disallow: /build/
+Disallow: /fonts/
+Disallow: /images/
+Disallow: /uploads/
+Disallow: /factures/
+
+
+# Blocage d'autres dossiers potentiellement sensibles
+Disallow: /config/
+Disallow: /bin/
+Disallow: /var/
+Disallow: /vendor/
+Disallow: /templates/
+
+# Autoriser l'accès à certains fichiers ou dossiers malgré les règles précédentes
+Allow: /css/style.css  # Exemple pour autoriser un fichier CSS spécifique
+
+# Sitemap (optionnel, remplacez par l'URL de votre sitemap)
+Sitemap: https://www.votresite.com/sitemap.xml

@@ -18,10 +18,10 @@ class Payment
     private ?User $user = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $sessionId = null;
+    private ?string $session = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $paymentStatus = null;
+    private ?string $payment_status = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date = null;
@@ -30,7 +30,7 @@ class Payment
     private ?string $amount = null;
 
     #[ORM\Column]
-    private ?bool $successPageExpired = null;
+    private ?bool $success_page_expired = null;
 
     public function getId(): ?int
     {
@@ -49,26 +49,26 @@ class Payment
         return $this;
     }
 
-    public function getSessionId(): ?string
+    public function getSession(): ?string
     {
-        return $this->sessionId;
+        return $this->session;
     }
 
-    public function setSessionId(string $sessionId): static
+    public function setSession(string $session): static
     {
-        $this->sessionId = $sessionId;
+        $this->session = $session;
 
         return $this;
     }
 
     public function getPaymentStatus(): ?string
     {
-        return $this->paymentStatus;
+        return $this->payment_status;
     }
 
-    public function setPaymentStatus(string $paymentStatus): static
+    public function setPaymentStatus(string $payment_status): static
     {
-        $this->paymentStatus = $paymentStatus;
+        $this->payment_status = $payment_status;
 
         return $this;
     }
@@ -99,12 +99,12 @@ class Payment
 
     public function isSuccessPageExpired(): ?bool
     {
-        return $this->successPageExpired;
+        return $this->success_page_expired;
     }
 
-    public function setSuccessPageExpired(bool $successPageExpired): static
+    public function setSuccessPageExpired(bool $success_page_expired): static
     {
-        $this->successPageExpired = $successPageExpired;
+        $this->success_page_expired = $success_page_expired;
 
         return $this;
     }
